@@ -1,29 +1,15 @@
-import torch
-from d2l.tensorflow import tensor
+import numpy as np
+from matplotlib_inline import backend_inline
+from d2l import torch as d2l
 
-'''虽然被称为Pytorch 但是代码中是torch不是pytorch'''
-x=torch.arange(12)
-'''向量vector   首先，我们可以使用 arange 创建一个行向量 x。这个行向量包含以0开始的前12个整数，它们默认创建为整数。也可指定创建类型为浮点数。
-张量中的每个值都称为张量的 元素（element）。例如，张量 x 中有 12 个元素。除非额外指定，新的张量将存储在内存中，并采用基于CPU的计算。'''
-print(x)
-print(x.shape)
-print(x.numel())
 
-'''要想改变一个张量的形状而不改变元素数量和元素值，
-可以调用reshape函数。 例如，可以把张量x从形状为（12,）的行向量转换为形状为（3,4）的矩阵。 这个新的张量包含与转换前相同的值，但是它被看成一个3行4列的矩阵。 要重点说明一下，虽然张量的形状发生了改变，但其元素值并没有变。 
-注意，通过改变张量的形状，张量的大小不会改变。'''
+def f(x):
+    return 3 * x ** 2 - 4 * x
 
-'''要想改变一个张量的形状而不改变元素数量和元素值，
-可以调用reshape函数。 例如，可以把张量x从形状为（12,）的行向量转换为形状为（3,4）的矩阵。 
-这个新的张量包含与转换前相同的值，但是它被看成一个3行4列的矩阵。 要重点说明一下，虽然张量的形状发生了改变，但其元素值并没有变。 
-注意，通过改变张量的形状，张量的大小不会改变。'''
-print(x.reshape(3,4))
-'''有时，我们希望使用全0、全1、其他常量，或者从特定分布中随机采样的数字来初始化矩阵。 我们可以创建一个形状为（2,3,4）的张量，
-其中所有元素都设置为0。代码如下：'''
-print(torch.zeros(2,3,4))
+def numerical_lim(f, x, h):
+    return (f(x + h) - f(x)) / h
 
-print(torch.ones((2, 3, 4)))
-
-print(torch.randn(3, 4))
-
-print(torch.tensor([[2, 1, 4, 3], [1, 2, 3, 4], [4, 3, 2, 1]]))
+h = 0.1
+for i in range(5):
+    print(f'h={h:.5f}, numerical limit={numerical_lim(f, 1, h):.5f}')
+    h *= 0.1
